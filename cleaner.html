@@ -13,22 +13,23 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
   <div class="wrapper">
     <h1>StatAnalys</h1>
-	<div class="intro">
-	Добро пожаловать на интернет-ресурс StatAnalys! 
-	<br>Интернет-ресурс представляет собой программу для очистики и визуализации статистических данных. 
-	</div>
-    <div class="input-group">
-      <input type="file" class="form-control file" id="basic-url" aria-describedby="basic-addon3">
+    <div class="donwloaded" style = "margin: 0 auto;">
+      Файл загружен успешно!
     </div>
   </div>
-  <script>
-    document.getElementsByClassName('file')[0].onchange = function () {
-      window.location.href = "file:///Users/romanborisov/Desktop/engineering-master/cleaner.html";
-    }
-  </script>
+  <div class="checkmenu">
+  <form action="editor.html" method="get">
+    <input type="checkbox" name="anomval" value="Red"/> Исправление аномальные значения<br/>
+    <input type="checkbox" name="dublicates" value="Red"/> Поиск дубликатов<br/>
+    <input type="checkbox" name="gapsfill" value="Red"/> Заполнение пропусков<br/>
+    <input type="submit" value="Перейти к визуализации">
+  </form>
+</div>
 </body>
 </html>

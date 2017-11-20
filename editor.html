@@ -15,51 +15,51 @@
   <div class="wrapper">
     <div class="editor">
       <form class="form">
-          <label for="exampleFormControlTextarea1">Редактор </label>
+          <label for="exampleFormControlTextarea1">Данные</label>
           <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">Username</th>
-                <th scope="col">something</th>
+                <th scope="col">Купюра</th>
+                <th scope="col">AVG цена/неделя</th>
+                <th scope="col">AVG цена/месяц</th>
+                <th scope="col">AVG цена/квартал</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@twitter</td>
+                <td>Рубль</td>
+                <td>43.22</td>
+                <td>41.94</td>
+                <td>30.25</td>
               </tr>
               <tr>
                 <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                <td>@twitter</td>
+                <td>Доллар</td>
+                <td>60.21</td>
+                <td>63.09</td>
+                <td>70.32</td>
               </tr>
               <tr>
                 <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
+                <td>Евро</td>
+                <td>71.29</td>
+                <td>43.94</td>
+                <td>74.55</td>
               </tr>
               <tr>
                 <th scope="row">4</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-                <td>@twitter</td>
+                <td>Франк</td>
+                <td>52.46</td>
+                <td>60.26</td>
+                <td>58.84</td>
               </tr>
             </tbody>
           </table>
-        <button class="submit" onclick="handleClick()">Исправить ошибки</button>
       </form>
     </div>
+    <button class="submit" style="margin: 0 auto;" onclick="handleClick()">Визуализировать</button>
     <div class="chart">
       <div id="container" style="height: 600px;margin-top:20px;width: 600px"></div>
       <button class="submit">Выгрузить в формате</button>

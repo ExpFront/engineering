@@ -6,7 +6,6 @@
 }
 
 
-.form,
 .chart {
   display: flex;
   flex-direction: column;
@@ -25,4 +24,17 @@
 
 .dropdown {
   margin-bottom: 20px;
+}
+
+.intro {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.checkmenu {
+  left: 50%;
+  margin-left: -125px;
+  position: absolute;
+  width: 800px;
+  margin-top: 5%;
 }
