@@ -1,0 +1,18 @@
+@import '../../styles/variables.scss';
+
+.button {
+	padding: 13px 30px 15px;
+
+	color: $color-white;
+	font-size: $font-size-26;
+	font-weight: bold;
+
+	background-color: $color-secondary;
+	border: 0;
+	border-radius: 7px;
+	cursor: pointer;
+
+	&:focus {
+		outline: none;
+	}
+}

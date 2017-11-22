@@ -1,0 +1,117 @@
+@import '../../../styles/variables.scss';
+
+.test {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	&__question {
+		max-width: 920px;
+		margin: 15px auto 0;
+
+		font-size: $font-size-26;
+		line-height: 36px;
+
+		text-align: center;
+	}
+
+	&__list {
+		max-width: 500px;
+		margin: 0 auto;
+
+		font-size: $font-size-26;
+
+		padding: 0;
+		list-style-type: none;
+	}
+
+	&__choice {
+		margin-bottom: 20px;
+
+		text-align: left;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__form {
+		width: 100%;
+		max-width: 845px;
+
+		margin-top: 45px;
+		padding: 40px 0;
+
+		text-align: center;
+		border-radius: 13px;
+		background-color: $color-white;
+	}
+
+	&__label {
+		position: relative;
+		display: block;
+	}
+
+	&__radio {
+		position: absolute;
+		visibility: hidden;
+
+		&:checked ~ .test__check {
+			background: url('./../../../assets/images/100500.png') -100px -659px;
+		}
+	}
+
+	&__check {
+		height: 26px;
+		width: 26px;
+
+		position: absolute;
+		top: 2px;
+		left: 0;
+
+		background: url('./../../../assets/images/100500.png') -68px -659px;
+
+		&_type {
+			&_correct {
+				background: url('./../../../assets/images/100500.png') -171px -663px;
+			}
+
+			&_incorrect {
+				background: url('./../../../assets/images/100500.png') -138px -663px;
+			}
+		}
+	}
+
+	&__option {
+		display: inline-block;
+		margin-left: 33px;
+
+		&_type {
+			&_correct {
+				color: $color-success;
+			}
+
+			&_incorrect {
+				color: $color-error;
+			}
+
+			&_unselected {
+				color: $color-default;
+			}
+		}
+	}
+
+	&__description {
+		display: block;
+
+		font-size: $font-size-16;
+		line-height: 20px;
+
+		color: $color-primary;
+		line-height: 22px;
+	}
+
+	&__submit {
+		margin-top: 35px;
+	}
+}

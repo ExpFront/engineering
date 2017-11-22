@@ -1,0 +1,54 @@
+@import '../../../styles/variables.scss';
+
+@keyframes handMoving {
+	from {
+		transform: translateX(-25vw);
+	}
+
+	to {
+		transform: translateX(110vw);
+	}
+}
+
+.bear {
+	text-align: center;
+
+	&__title {
+		margin: 0 auto;
+		max-width: 518px;
+
+		font-size: $font-size-26;
+		line-height: 1.38;
+		text-align: center;
+	}
+
+	&__button {
+		position: relative;
+
+		margin: 28px auto 0;
+		padding: 0;
+
+		text-align: center;
+
+		background: transparent;
+		border: none;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	&__image {
+		&--wrapper {
+			position: relative;
+		}
+
+		&--hand {
+			position: absolute;
+			top: 106px;
+			left: -50vw;
+
+			animation: handMoving linear 4s infinite;
+		}
+	}
+}

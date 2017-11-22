@@ -1,0 +1,59 @@
+@import '../../styles/variables.scss';
+
+.footer {
+	position: relative;
+
+	width: 100%;
+	margin: 60px auto 0;
+
+
+	text-align: center;
+
+	&__text {
+		margin: 10px auto 30px;
+		max-width: 555px;
+
+		font-size: $font-size-16;
+		text-align: center;
+	}
+
+	&__link {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		text-decoration: none;
+
+		&--wrapper {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+
+			@media #{$desktop-sm} {
+				position: relative;
+
+				margin-bottom: 30px;
+			}
+		}
+	}
+
+	&__hint {
+		display: flex;
+		align-items: center;
+
+		&-message {
+			margin-left: 20px;
+			color: $color-primary;
+			font-size: 23px;
+		}
+	}
+
+	&__icon {
+		display: inline-block;
+		width: 40px;
+		height: 40px;
+		background-color: transparent;
+		background-image: url('../../assets/images/help.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+}

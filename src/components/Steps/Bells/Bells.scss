@@ -1,0 +1,116 @@
+@import '../../../styles/variables.scss';
+
+.bells {
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		flex-wrap: wrap;
+
+		max-width: 1140px;
+		margin: 55px auto 0;
+
+		@media #{$desktop-sm} {
+			margin-top: 0;
+			margin-bottom: 45px;
+		}
+	}
+
+	&__column {
+		display: block;
+
+		width: calc(100% / 3);
+
+		color: inherit;
+
+		background: transparent;
+		border: none;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		&:focus {
+			outline: none;
+		}
+
+		@media #{$desktop-sm} {
+			width: 100%;
+			margin-top: 25px;
+		}
+	}
+
+	&__image-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		width: 100%;
+		height: 300px;
+		margin: 0 auto;
+	}
+
+	&__label {
+		position: relative;
+		display: block;
+
+		padding-top: 20px;
+		width: 100%;
+
+		font-size: $font-size-26;
+		line-height: 1.62;
+		text-align: center;
+	}
+
+	&__radio {
+		position: absolute;
+
+		visibility: hidden;
+
+		&:checked ~ .bells__check {
+			background: url('./../../../assets/images/100500.png') -100px -659px;
+		}
+	}
+
+	&__check {
+		position: absolute;
+		top: -8px;
+		left: 50%;
+
+		height: 26px;
+		width: 26px;
+
+		background: url('./../../../assets/images/100500.png') -68px -659px;
+		transform: translateX(-50%);
+
+		&_type {
+			&_correct {
+				background: url('./../../../assets/images/100500.png') -171px -663px;
+			}
+
+			&_incorrect {
+				background: url('./../../../assets/images/100500.png') -138px -663px;
+			}
+		}
+	}
+
+	&__option {
+		display: block;
+
+		font-size: $font-size-16;
+
+		&_type {
+			&_correct {
+				color: $color-success;
+			}
+
+			&_incorrect {
+				color: $color-error;
+			}
+
+			&_unselected {
+				color: $color-default;
+			}
+		}
+	}
+}

@@ -1,0 +1,99 @@
+@import '../../../styles/variables.scss';
+
+.intro {
+	display: flex;
+	min-height: calc(100vh - 100px);
+	text-align: center;
+
+	&__welcome {
+		max-width: 30%;
+		padding-top: 40px;
+		padding-left: 35px;
+		padding-bottom: 30px;
+		margin-right: 80px;
+		text-align: left;
+	}
+
+	&__header {
+		font-size: $font-size-72;
+		line-height: 1;
+		font-weight: 900;
+		margin: 0;
+		margin-bottom: 13px;
+	}
+
+	&__prizes {
+		min-height: 100%;
+		width: 100%;
+		margin-top: -100px;
+		background-image: url('../../../assets/images/iphone.svg'), url('../../../assets/images/leopard.svg');
+		background-size: 60%, cover;
+		background-position: center, center;
+		background-repeat: no-repeat;
+		z-index: 1;
+
+		@media screen and (min-width: 1024px) {
+			& {
+				background-size: 40%, cover;
+			}
+		}
+
+		@media screen and (min-width: 1680px) {
+			& {
+				background-size: 30%, cover;
+			}
+		}
+	}
+
+	&__description {
+		font-size: 21px;
+		line-height: 33px;
+		margin-bottom: 33px;
+
+		&_with_margin {
+			margin-top: 13px;
+		}
+	}
+
+	&__help {
+		position: relative;
+		display: inline-block;
+	}
+
+	&__help:hover &__tooltip {
+		display: block;
+	}
+
+	&__info {
+		display: inline-block;
+		line-height: 25px;
+
+		border-bottom: 1px dashed;
+		cursor: pointer;
+	}
+
+	&__tooltip {
+		display: none;
+	}
+
+	&__law {
+		&-container {
+			margin-top: 40px;
+		}
+
+		&__link {
+			padding: 0;
+
+			font-weight: 600;
+			color: inherit;
+
+			&:hover {
+				color: inherit;
+			}
+		}
+
+		&__description {
+			margin-top: 20px;
+		}
+	}
+}

@@ -1,0 +1,85 @@
+@import '../../styles/variables.scss';
+
+$default-loader-size: 100px;
+$default-loader-width: 6px;
+
+.main {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	max-width: 1440px;
+	min-height: calc(100vh - 105px); // 105px - header and 60px padding-bottom
+	margin: 0 auto;
+	padding: 0 $padding-md-default 60px;
+
+	@media #{$desktop-sm} {
+		padding: 0 $padding-sm-default 60px;
+	}
+
+	&__container {
+		padding: 0 $padding-md-default;
+
+		@media (max-width: 1190px) {
+			padding: 0 $padding-sm-default;
+		}
+	}
+
+	&__column {
+		width: 100%;
+	}
+
+	&__step {
+		margin-top: 40px;
+	}
+
+	&__done,
+	&__auth {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		min-height: calc(100vh - 165px); // 105px - header and 60px padding-bottom
+		padding: 0 $padding-md-default;
+	}
+}
+
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	display: block;
+
+	width: $default-loader-size;
+	height: $default-loader-size;
+
+	border: $default-loader-width solid rgba(0, 0, 0, .1);
+	border-radius: 50%;
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: -$default-loader-width;
+		left: -$default-loader-width;
+
+		width: $default-loader-size;
+		height: $default-loader-size;
+
+		border: $default-loader-width solid transparent;
+		border-top-color: $color-primary;
+		border-radius: 50%;
+
+		animation: rotate 1s linear infinite;
+	}
+}
+
+@keyframes rotate {
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}

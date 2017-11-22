@@ -1,0 +1,93 @@
+@import '../../../styles/variables.scss';
+
+.playlist {
+	&__title {
+		margin: 0;
+
+		font-size: $font-size-26;
+		font-weight: 600;
+		line-height: 1.27;
+		text-align: center;
+	}
+
+	&__content {
+		display: flex;
+		justify-content: center;
+
+		margin-top: 50px;
+
+		@media #{$desktop-sm} {
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+
+	&__image {
+		&-container {
+			position: relative;
+
+			min-width: 480px;
+		}
+	}
+
+	&__list {
+		margin: 0;
+		padding: 0;
+
+		list-style: none;
+	}
+
+	&__item {
+		min-width: 513px;
+		max-width: 513px;
+		margin-bottom: 27px;
+		padding: 2px 15px;
+
+		font-size: $font-size-26;
+		line-height: 1.62;
+
+		border-radius: 13px;
+		background-color: $color-yellow-light;
+		transform: translateZ(0); // hack for drag-n-drop element, border-radius not work without it
+		cursor: move;
+
+		user-select: none;
+	}
+
+	&__text {
+		margin: 126px auto 0;
+		max-width: 555px;
+
+		font-size: $font-size-16;
+		text-align: center;
+	}
+}
+
+.player {
+	&__list {
+		position: absolute;
+		top: 270px;
+		left: 44px;
+
+		max-height: 140px;
+    overflow-y: scroll;
+
+		color: $color-yellow;
+		font-size: 13px;
+		line-height: 1.6;
+	}
+}
+
+.ml93 {
+	margin-left: 93px;
+
+	@media #{$desktop-sm} {
+		margin-left: 0;
+	}
+}
+
+.mt60 {
+	@media #{$desktop-sm} {
+		margin-top: 60px;
+	}
+}
