@@ -22,30 +22,22 @@ const steps = [
 		component: TestStep,
 		params: {
 			data: testQuestions['kandibober'],
-			progressQuestion: 'Ибрагим вам что-нибудь говорит?',
+			progressQuestion: 'Загрузка файла!',
 		},
 	},
 	{
 		type: 'playlist',
 		component: PlaylistStep,
 		params: {
-			data: data['playlist'],
+			data: testQuestions['playlist'],
 			progressQuestion: 'Я ломааааал стеклооооо!',
-		},
-	},
-	{
-		type: 'flag',
-		component: TestStep,
-		params: {
-			data: testQuestions['flag'],
-			progressQuestion: 'Конечно, мы знаем, что сегодня день флага Российской Федерации',
 		},
 	},
 	{
 		type: 'cucumber',
 		component: CucumberStep,
 		params: {
-			data: data['cucumber'],
+			data: testQuestions['cucumber'],
 			progressQuestion: 'И геморрой проходит очень быстро!',
 		},
 	},

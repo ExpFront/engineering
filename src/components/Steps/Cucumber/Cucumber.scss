@@ -1,156 +1,122 @@
 @import '../../../styles/variables.scss';
 
-@keyframes cucumberMoving {
-	from {
-		left: 0;
-	}
+.test {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-	to {
-		left: calc(100% - 413px); // ass-type-left
-	}
-}
-
-.cucumber {
-	margin-bottom: 80px;
-
-	&__title {
-		margin: 0;
+	&__question {
+		max-width: 920px;
+		margin: 15px auto 0;
 
 		font-size: $font-size-26;
-		font-weight: bold;
-		line-height: 1.27;
+		line-height: 36px;
+
 		text-align: center;
 	}
 
-	&__content {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-
-		margin-top: 50px;
-	}
-
-	&__image {
-		&-container {
-			position: relative;
-
-			min-width: 480px;
-		}
-	}
-
 	&__list {
-		margin: 0;
-		margin-top: 80px;
-		padding: 0;
-
-		list-style: none;
-	}
-
-	&__field {
-		width: 100%;
-		border-bottom: 1px dashed $color-primary;
-	}
-
-	&__item {
-		display: inline-block;
-		min-width: 227px;
-		max-width: 411px;
-		min-height: 39px;
-		margin-left: 16px;
-		margin-bottom: 27px;
-		padding: 0 15px;
+		max-width: 500px;
+		margin: 0 auto;
 
 		font-size: $font-size-26;
-		line-height: 1.62;
 
+		padding: 0;
+		list-style-type: none;
+	}
+
+	&__choice {
+		margin-bottom: 20px;
+
+		text-align: left;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__form {
+		width: 100%;
+		max-width: 845px;
+
+		margin-top: 45px;
+		padding: 40px 0;
+
+		text-align: center;
 		border-radius: 13px;
-		background-color: #e7f3c1;
-		transform: translateZ(0);
-		cursor: move;
-
-		user-select: none;
+		background-color: $color-white;
 	}
 
-	&__action {
+	&__label {
 		position: relative;
-		height: 260px;
+		display: block;
 	}
 
-	&__cucumber {
+	&__radio {
 		position: absolute;
-		top: 190px;
-		left: 0;
-		z-index: 2;
+		visibility: hidden;
 
-		&_type_animated {
-			animation: cucumberMoving linear 1.5s forwards;
+		&:checked ~ .test__check {
+			background: url('./../../../assets/images/100500.png') -100px -659px;
 		}
 	}
 
-	&__ass {
-		&_type_left {
-			position: absolute;
-			right: -53px;
-			top: -2px;
-			z-index: 1;
-		}
+	&__check {
+		height: 26px;
+		width: 26px;
 
-		&_type_right {
-			position: absolute;
-			right: 0;
-			top: 3px;
-			z-index: 3;
+		position: absolute;
+		top: 2px;
+		left: 0;
+
+		background: url('./../../../assets/images/100500.png') -68px -659px;
+
+		&_type {
+			&_correct {
+				background: url('./../../../assets/images/100500.png') -171px -663px;
+			}
+
+			&_incorrect {
+				background: url('./../../../assets/images/100500.png') -138px -663px;
+			}
 		}
+	}
+
+	&__option {
+		display: inline-block;
+		margin-left: 33px;
+
+		&_type {
+			&_correct {
+				color: $color-success;
+			}
+
+			&_incorrect {
+				color: $color-error;
+			}
+
+			&_unselected {
+				color: $color-default;
+			}
+		}
+	}
+
+	&__description {
+		display: block;
+
+		font-size: $font-size-16;
+		line-height: 20px;
+
+		color: $color-primary;
+		line-height: 22px;
+	}
+
+	&__submit {
+		margin-top: 35px;
 	}
 }
 
-.field {
-	position: relative;
-
-	&:after,
-	&:before {
-		content: '';
-		position: absolute;
-		left: 0;
-
-		height: 100px;
-		width: 100%;
-	}
-
-	&:after {
-		top: 0;
-	}
-
-	&:before {
-		bottom: 0;
-	}
-
-	&__list {
-		min-height: 30px;
-		display: inline;
-
-		margin: 0;
-		padding: 0;
-
-		list-style: none;
-		word-break: break-word;
-		white-space: pre-wrap;
-
-		padding-bottom: 2px;
-		border-bottom: 1px dashed $color-primary;
-
-		font-size: 24px;
-		line-height: 48px;
-
-		user-select: none;
-	}
-
-	&__item {
-		display: inline;
-
-		font-size: $font-size-26;
-		line-height: 1.62;
-
-		border-bottom: 2px dashed $color-primary;
-	}
+.file {
+	max-width: 400px;
+	margin: 0 auto;
 }

@@ -126,8 +126,14 @@ class Test extends Component {
 				</h3>
 
 				<form className="test__form">
-					{this.renderFormBody()}
 
+					{data.image === 'kandibober' &&
+						<div className="input-group">
+							<input type="file" onChange={() => this.chooseAnswer(0)} className="form-control file" id="basic-url" aria-describedby="basic-addon3"/>
+						</div>
+					}
+
+					{data.image !== 'kandibober' && this.renderFormBody()}
 					{answerIsChoosen &&
 						<div className="test__submit">
 							<Button onClick={this.handleOnClick} text={data.buttonText} />

@@ -11,7 +11,7 @@ $default-loader-width: 6px;
 	max-width: 1440px;
 	min-height: calc(100vh - 105px); // 105px - header and 60px padding-bottom
 	margin: 0 auto;
-	padding: 0 $padding-md-default 60px;
+	padding: 20px $padding-md-default 60px;
 
 	@media #{$desktop-sm} {
 		padding: 0 $padding-sm-default 60px;

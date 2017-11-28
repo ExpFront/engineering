@@ -2,7 +2,7 @@
 
 .intro {
 	display: flex;
-	min-height: calc(100vh - 100px);
+	min-height: 100vh;
 	text-align: center;
 
 	&__welcome {
@@ -26,7 +26,7 @@
 		min-height: 100%;
 		width: 100%;
 		margin-top: -100px;
-		background-image: url('../../../assets/images/iphone.svg'), url('../../../assets/images/leopard.svg');
+		background-image: url('../../../assets/images/dollar.png'), url('../../../assets/images/dollars.jpg');
 		background-size: 60%, cover;
 		background-position: center, center;
 		background-repeat: no-repeat;

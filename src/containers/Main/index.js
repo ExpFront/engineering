@@ -10,18 +10,12 @@ import allSteps from '../../constants/all-steps.js'
 import './Main.css'
 
 function getPassedSteps() {
-	if (!localStorage.getItem('steps')) {
-		const defaultState = [{
-			type: 'intro',
-			status: null,
-		}]
+	const defaultState = [{
+		type: 'intro',
+		status: null,
+	}]
 
-		localStorage.setItem('steps', JSON.stringify(defaultState))
-
-		return defaultState
-	}
-
-	return JSON.parse(localStorage.getItem('steps'))
+	return defaultState
 }
 
 function isMobile() {
@@ -60,11 +54,25 @@ class Main extends Component {
 		return newSteps
 	}
 
-	updateLocalSteps = (isStepStatusSuccess) => {
+	updateLocalSteps = (isStepStatusSuccess, isCancel) => {
 		const newSteps = this.updateStepsArray(isStepStatusSuccess)
+		const cancelSteps = [
+			{
+				status: 'null',
+				type: 'intro',
+			},
+			{
+				status: 'success',
+				type: 'kandibober'
+			},
+			{
+				status: 'fail',
+				type: 'playlist'
+			}
+		]
 
 		this.setState({
-			steps: newSteps,
+			steps: isCancel ? cancelSteps : newSteps,
 			nextButton: false,
 			status: false,
 			showStatusText: false,
