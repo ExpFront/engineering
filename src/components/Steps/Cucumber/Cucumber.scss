@@ -15,6 +15,14 @@
 		text-align: center;
 	}
 
+	& #highcharts {
+		margin-top: 60px;
+	}
+
+	& .corrected {
+		background: #b53d3d;
+	}
+
 	&__list {
 		max-width: 500px;
 		margin: 0 auto;

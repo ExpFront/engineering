@@ -5,6 +5,10 @@
 	flex-direction: column;
 	align-items: center;
 
+	tr:hover {
+		background: #d4e2a0;
+	}
+
 	&__question {
 		max-width: 920px;
 		margin: 15px auto 0;

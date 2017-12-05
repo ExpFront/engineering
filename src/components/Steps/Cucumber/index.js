@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 
 import Highcharts from 'highcharts';
+require('highcharts/modules/exporting')(Highcharts);
+
 import Button from '../../Button'
 import image from '../../../assets/images/100500.png'
 
@@ -39,13 +41,15 @@ class Test extends Component {
 		const { choosenAnswerId } = this.state
 		const { updateLocalSteps } = this.props
 		updateLocalSteps(this.isAnswerCorrect(choosenAnswerId), true)
+
+		window.stockData = [...window.prevStockData];
 	}
 
 	handleOnClick = () => {
 		const { choosenAnswerId } = this.state
 		const { updateLocalSteps } = this.props
 
-		updateLocalSteps(this.isAnswerCorrect(choosenAnswerId))
+		updateLocalSteps(this.isAnswerCorrect(choosenAnswerId), true)
 	}
 
 	getChoiceCorrectness = (choiceId) => {
@@ -82,46 +86,78 @@ class Test extends Component {
 	}
 
 	componentDidMount() {
+		window.maxValues = {};
+
+		const getData = (id) => {
+			const arr = []
+			const data = window.stockData.slice(1).map((item) => {
+				console.log(item, 'item')
+				if (item.length > 1) {
+					arr.push(+item[id+1])
+				}
+			})
+
+			const maxValue = Math.max.apply(null, arr)
+			window.maxValues[window.stockData[0][id+1]] = maxValue
+
+			return arr
+		}
+
+		const getSeries = () => {
+			const series = window.stockData[0].slice(1).map((item, id) => ({
+					name: item,
+					data: getData(id)
+			}))
+
+			return series
+
+		}
+
 		Highcharts.chart('highcharts', {
 		    chart: {
 		        type: 'line'
 		    },
 		    title: {
-		        text: 'Monthly Average Temperature'
-		    },
-		    subtitle: {
-		        text: 'Source: WorldClimate.com'
+		        text: 'Прогноз котировок акций на год'
 		    },
 		    xAxis: {
-		        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		        categories: ['Янв', 'Фев', 'Март', 'Апр', 'Май', 'Июнь', 'Июнль', 'Авг', 'Сен', 'Окт', 'Нояб', 'Дек']
 		    },
 		    yAxis: {
 		        title: {
-		            text: 'Temperature (°C)'
+		            text: 'Изменение курса валюты'
 		        }
 		    },
+				exporting: {
+            enabled: true
+        },
 		    plotOptions: {
 		        line: {
 		            dataLabels: {
 		                enabled: true
 		            },
-		            enableMouseTracking: false
+		            enableMouseTracking: true
 		        }
 		    },
-		    series: [{
-		        name: 'Tokyo',
-		        data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-		    }, {
-		        name: 'London',
-		        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-		    }]
+		    series: getSeries(),
 		});
+
+		this.forceUpdate();
+	}
+
+	state = {
+		visibleRows: 10,
+	}
+
+	showMore = (e) => {
+		e.preventDefault();
+		this.setState({ visibleRows: this.state.visibleRows + 10 })
 	}
 
 	render() {
 		const { answerIsChoosen } = this.state
 		const { data } = this.props
-		console.log(data, 'data')
+
 		return (
 			<div className="test">
 				<h3 className="test__question">
@@ -129,54 +165,51 @@ class Test extends Component {
 				</h3>
 
 				<form className="test__form">
-					<table className="table">
-						<thead className="thead-dark">
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Купюра</th>
-								<th scope="col">AVG цена/неделя</th>
-								<th scope="col">AVG цена/месяц</th>
-								<th scope="col">AVG цена/квартал</th>
+				<table className="table">
+					<thead className="thead-dark">
+						<tr>
+							<th scope="col">#</th>
+							{window.stockData[0].map((item) => (
+								<th scope="col">{item}</th>
+							))}
+
+						</tr>
+					</thead>
+					<tbody>
+						{window.stockData.slice(1, this.state.visibleRows).map((item, id) => (
+							<tr key={id} className={window.stockData[window.stockData.length - 1].includes(id+1) ? 'corrected' : null}>
+								<th scope="row">{id + 1}</th>
+								{item.length < 4 ?
+									['', '', '', '', ''].map((text) => (
+										<td>—</td>
+									))
+									:
+									item.map((text) => (
+										<td>{text}</td>
+									))
+								}
 							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td>Рубль</td>
-								<td>43.22</td>
-								<td>41.94</td>
-								<td>30.25</td>
-							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td>Доллар</td>
-								<td>60.21</td>
-								<td>63.09</td>
-								<td>70.32</td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td>Евро</td>
-								<td>71.29</td>
-								<td>43.94</td>
-								<td>74.55</td>
-							</tr>
-							<tr>
-								<th scope="row">4</th>
-								<td>Франк</td>
-								<td>52.46</td>
-								<td>60.26</td>
-								<td>58.84</td>
-							</tr>
-						</tbody>
-					</table>
+						))}
+					</tbody>
+				</table>
+
+					{this.state.visibleRows < window.stockData.length &&
+						<button onClick={this.showMore}>Показать следующие 10</button>
+					}
 
 					<div id="highcharts"></div>
+
+					<div className="maxValues">
+						{window.maxValues && Object.keys(window.maxValues).map((item) => (
+							<p>Максимальная стоимость валюты {item} — {window.maxValues[item]} рублей</p>
+						))}
+					</div>
 
 					<div className="test__submit">
 						<div style={{'margin-right': '20px', 'display': 'inline-block'}}>
 							<Button onClick={this.handleCancel} text="Отменить"/>
 						</div>
+
 						<Button onClick={this.handleOnClick} text={data.buttonText} />
 					</div>
 				</form>

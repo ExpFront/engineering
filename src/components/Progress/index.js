@@ -16,10 +16,6 @@ const Progress = ({steps, progressQuestion}: Props) => (
 			{steps.length} / 8
 		</div>
 
-		<div className="progress__question">
-			{progressQuestion}
-		</div>
-
 		<div className="progress__bar">
 			{
 				_.tail(steps).map((step, id) => (

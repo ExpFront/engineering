@@ -20,6 +20,21 @@ class Test extends Component {
 	}
 
 	chooseAnswer = (choiceId) => {
+		const urls = ['anomaly', 'duplicate', 'empty']
+		const prefix = urls[choiceid - 1]
+
+		fetch(`${window.url}/prefix`, {
+				 method: 'GET',
+				 mode: 'no-cors',
+		 }).then(function (response) {
+				 console.log(response)
+				 window.stockData = mockData;
+				 window.prevStockData = mockData;
+		 }).catch(function(error){
+				 alert('Файл не загружен!', error)
+		 });
+
+
 		const { updateLocalStorage } = this.props
 
 		const debouncedSetState = _.debounce(
@@ -79,7 +94,8 @@ class Test extends Component {
 		const { data } = this.props
 
 		return (
-			<ul className="test__list">
+			<ul className="test__list" style={{'marginTop': '40px'}}>
+				<h3>Выберите метод корректировки:</h3>
 				{data.choices.map((choice) => (
 					<li className="test__choice" key={choice.id}>
 						<label className="test__label">
@@ -111,10 +127,19 @@ class Test extends Component {
 		)
 	}
 
+	state = {
+		visibleRows: 10,
+	}
+
+	showMore = (e) => {
+		e.preventDefault();
+		this.setState({ visibleRows: this.state.visibleRows + 10 })
+	}
+
 	render() {
 		const { answerIsChoosen } = this.state
 		const { data } = this.props
-		console.log(data, 'data')
+
 		return (
 			<div className="test">
 				<h3 className="test__question">
@@ -126,43 +151,33 @@ class Test extends Component {
 						<thead className="thead-dark">
 							<tr>
 								<th scope="col">#</th>
-								<th scope="col">Купюра</th>
-								<th scope="col">AVG цена/неделя</th>
-								<th scope="col">AVG цена/месяц</th>
-								<th scope="col">AVG цена/квартал</th>
+								{window.stockData[0].map((item) => (
+									<th scope="col">{item}</th>
+								))}
+
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<th scope="row">1</th>
-								<td>Рубль</td>
-								<td>43.22</td>
-								<td>41.94</td>
-								<td>30.25</td>
-							</tr>
-							<tr>
-								<th scope="row">2</th>
-								<td>Доллар</td>
-								<td>60.21</td>
-								<td>63.09</td>
-								<td>70.32</td>
-							</tr>
-							<tr>
-								<th scope="row">3</th>
-								<td>Евро</td>
-								<td>71.29</td>
-								<td>43.94</td>
-								<td>74.55</td>
-							</tr>
-							<tr>
-								<th scope="row">4</th>
-								<td>Франк</td>
-								<td>52.46</td>
-								<td>60.26</td>
-								<td>58.84</td>
-							</tr>
+							{window.stockData.slice(1, this.state.visibleRows).map((item, id) => (
+								<tr key={id}>
+									<th scope="row">{id + 1}</th>
+									{item.length < 4 ?
+										['', '', '', '', ''].map((text) => (
+											<td>—</td>
+										))
+										:
+										item.map((text) => (
+											<td>{text}</td>
+										))
+									}
+								</tr>
+							))}
 						</tbody>
 					</table>
+
+					{this.state.visibleRows < window.stockData.length &&
+						<button onClick={this.showMore}>Показать следующие 10</button>
+					}
 
 					{data.image !== 'kandibober' && this.renderFormBody()}
 

@@ -15,9 +15,13 @@
 		text-align: center;
 	}
 
+	& .corrected {
+		background: red;
+	}
+
 	&__list {
 		max-width: 500px;
-		margin: 0 auto;
+		margin: 40px auto 0;
 
 		font-size: $font-size-26;
 
