@@ -20,16 +20,16 @@ class Test extends Component {
 	}
 
 	chooseAnswer = (choiceId) => {
-		const urls = ['anomaly', 'duplicate', 'empty']
-		const prefix = urls[choiceid - 1]
+		console.log(choiceId)
+		const urls = ['', 'anomaly', 'duplicate', 'empty']
+		const prefix = urls[choiceId]
 
-		fetch(`${window.url}/prefix`, {
+		fetch(`${window.url}/${prefix}`, {
 				 method: 'GET',
 				 mode: 'no-cors',
 		 }).then(function (response) {
-				 console.log(response)
-				 window.stockData = mockData;
-				 window.prevStockData = mockData;
+				 window.stockData = window.mockData;
+				 window.prevStockData = window.mockData;
 		 }).catch(function(error){
 				 alert('Файл не загружен!', error)
 		 });
