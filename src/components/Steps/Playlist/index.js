@@ -20,20 +20,19 @@ class Test extends Component {
 	}
 
 	chooseAnswer = (choiceId) => {
-		console.log(choiceId)
 		const urls = ['', 'anomaly', 'duplicate', 'empty']
 		const prefix = urls[choiceId]
 
-		fetch(`${window.url}/${prefix}`, {
-				 method: 'GET',
-				 mode: 'no-cors',
-		 }).then(function (response) {
-				 window.stockData = window.mockData;
-				 window.prevStockData = window.mockData;
+		fetch(`${window.url}/${prefix}/`, {
+			method: 'POST',
+			body: null,
+		})
+			.then(res => res.json()).then((data) => {
+				window.stockData = data;
+				 // window.prevStockData = window.mockData;
 		 }).catch(function(error){
-				 alert('Файл не загружен!', error)
-		 });
-
+				alert('Файл не загружен!', error)
+		});
 
 		const { updateLocalStorage } = this.props
 

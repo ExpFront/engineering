@@ -12,6 +12,7 @@
     "react-share": "^1.13.2"
   },
   "devDependencies": {
+    "axios": "^0.17.1",
     "classnames": "^2.2.5",
     "css-color-names": "0.0.4",
     "eslint": "^3.19.0",
@@ -20,6 +21,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "node-sass-chokidar": "0.0.1",
     "npm-run-all": "^4.0.2",
