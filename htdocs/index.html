@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>StatAnalys</title>
+  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+  <script type="text/javascript" src="http://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+</head>
+<body style='background-image:url(Classes/PHPExcel/backgr.jpg);background-repeat: no-repeat; background-size: 100%' >
+  <div class="wrapper">
+    <h1>StatAnalys</h1>
+	<div class="intro">
+	Добро пожаловать на интернет-ресурс StatAnalys! 
+	<br>Интернет-ресурс представляет собой программу для очистики и визуализации статистических данных. 
+	</div>
+    <div class="inputg" style="margin: 0 auto; text-align: center;margin-top:10%;">
+      <form action="/Classes/PHPExcel/excelwriter.php" method="POST" enctype="multipart/form-data">
+        <p>Загрузите ваш файл в формате .xlsx</p>
+    <p><input type="file" name="userfile"><br> </p>
+    <p><input type="submit" value="Загрузить"><br></p>
+     </form>
+    </div>
+  </div>
+</body>
+</html>
