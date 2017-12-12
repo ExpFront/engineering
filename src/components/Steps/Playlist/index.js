@@ -28,10 +28,9 @@ class Test extends Component {
 		fetch(`${window.url}/${prefix}/`)
 			.then(res => res.json()).then((data) => {
 				// console.log(data, 'data')
-				// window.stockData = data;
+				window.stockData = data;
 				// this.forceUpdate();
 				alert('Корректировка прошла успешно')
-				 // window.prevStockData = window.mockData;
 		 }).catch(function(error) {
 			 	let newData = [];
 

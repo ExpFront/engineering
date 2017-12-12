@@ -33,7 +33,7 @@ class Test extends Component {
 			 reader.readAsDataURL(file);
 			 reader.onload = function () {
 				 const base64 = reader.result
-				 window.url = 'http://93f48049.ngrok.io/api'
+				 window.url = 'http://1552f19f.ngrok.io/api'
 
 				 fetch(`${window.url}/upload/`, {
 							method: 'POST',

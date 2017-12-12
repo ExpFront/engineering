@@ -51,6 +51,7 @@ class Test extends Component {
 		const { choosenAnswerId } = this.state
 		const { updateLocalSteps } = this.props
 
+		window.prevStockData = [...window.stockData]
 		updateLocalSteps(this.isAnswerCorrect(choosenAnswerId), true)
 	}
 
@@ -111,8 +112,7 @@ class Test extends Component {
 		)
 	}
 
-
-	componentDidMount() {
+	renderHighcharts() {
 		window.maxValues = {};
 
 		const getData = (id) => {
@@ -140,7 +140,9 @@ class Test extends Component {
 
 		}
 
-		Highcharts.chart('highcharts', {
+		console.log('UPDATED')
+
+		window.chart = Highcharts.chart('highcharts', {
 		    chart: {
 		        type: 'line'
 		    },
@@ -172,16 +174,26 @@ class Test extends Component {
 		this.forceUpdate();
 	}
 
-	showAcceptButtons = (e, row, column) => {
-		window.stockData[row][column] = e.target.value
-		this.forceUpdate()
+	componentDidMount() {
+		this.renderHighcharts();
 	}
 
-	removeChange = (e, row, column) => {
+	showAcceptButtons(e, row, column) {
+		window.stockData[row][column] = e.target.value;
+		this.forceUpdate();
+		window.chart.destroy();
+		this.renderHighcharts();
+		// .setData(window.stockData,true);
+	}
+
+	removeChange(e, row, column) {
 		e.preventDefault();
 
-		window.stockData[row][column] = window.prevStockData[row][column]
-		this.forceUpdate()
+		window.stockData[row][column] = window.prevStockData[row][column];
+		this.forceUpdate();
+		window.chart.destroy();
+		this.renderHighcharts();
+
 	}
 
 	render() {
@@ -208,25 +220,27 @@ class Test extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{currentStepStockData.map((item, id) => (
-							<tr key={id} className={window.stockData[window.stockData.length - 1].includes(id+1) ? 'corrected' : null}>
+						{currentStepStockData.map((item, id) => {console.log(stockData.length - 1, +page * step + id + 1, 'blha'); return(
+							<tr key={id} className={window.stockData[window.stockData.length - 1].map(item => +item).includes(page === 0 ? id + 1 : +page * step + id + 1) ? 'corrected' : null}>
 								<th scope="row">{page === 0 ? id + 1 : +page * step + id + 1}</th>
-								{item.length < 4 ?
+								{+page * step + id + 1 === stockData.length || item.length < 4 ?
 									['', '', '', '', ''].map((text) => (
 										<td>—</td>
 									))
 									:
 									item.map((text, id2) => {
+										window.s = window.stockData[page === 0 ? id + 1 : +page * step + id + 1][id2]
+										const flag = window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2] !== window.s
+
 										return (
 											<td>
-												{
-													window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2] !== window.stockData[page === 0 ? id + 1 : +page * step + id + 1][id2] &&
-														<span className="prevValue">{window.prevStockData[id+1][id2]}</span>
+												{ flag &&
+														<span className="prevValue">{window.prevStockData[id+1][id2] ? window.prevStockData[id+1][id2] : '—'}</span>
 												}
-												{(window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2] !== window.stockData[page === 0 ? id + 1 : +page * step + id + 1][id2]) && window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2]?
+												{flag ?
 													<div>
-														<input className="input" onChange={(e) => this.showAcceptButtons(e, id+1, id2)} type="text" value={text}/>
-														<button type="button" onClick={(e) => this.removeChange(e, id+1, id2)}>X</button>
+														<input className="input" onChange={(e) => this.showAcceptButtons(e, page === 0 ? id + 1 : +page * step + id + 1, id2)} type="text" value={text}/>
+														<button type="button" onClick={(e) => this.removeChange(e, page === 0 ? id + 1 : +page * step + id + 1, id2)}>X</button>
 													</div>
 													:
 													text
@@ -236,7 +250,7 @@ class Test extends Component {
 									)
 								}
 							</tr>
-						))}
+						)})}
 					</tbody>
 				</table>
 
@@ -244,22 +258,24 @@ class Test extends Component {
 					this.renderSelect()
 				}
 
-					<div id="highcharts"></div>
+				<a style={{'marginLeft': '50px', 'display': 'none'}} href={`${window.url}/download`}>Скачать .csv</a>
 
-					<div className="maxValues">
-						{window.maxValues && Object.keys(window.maxValues).map((item) => (
-							<p>Максимальная стоимость валюты {item} — {window.maxValues[item]} рублей</p>
-						))}
+				<div id="highcharts"></div>
+
+				<div className="maxValues">
+					{window.maxValues && Object.keys(window.maxValues).map((item) => (
+						<p>Максимальная стоимость валюты {item} — {window.maxValues[item]} рублей</p>
+					))}
+				</div>
+
+				<div className="test__submit">
+					<div style={{'margin-right': '20px', 'display': 'inline-block'}}>
+						<Button onClick={this.handleCancel} text="Отменить"/>
 					</div>
 
-					<div className="test__submit">
-						<div style={{'margin-right': '20px', 'display': 'inline-block'}}>
-							<Button onClick={this.handleCancel} text="Отменить"/>
-						</div>
-
-						<Button onClick={this.handleOnClick} text={data.buttonText} />
-					</div>
-				</form>
+					<Button onClick={this.handleOnClick} text={data.buttonText} />
+				</div>
+			</form>
 
 			</div>
 		)
