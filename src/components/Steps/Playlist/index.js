@@ -11,6 +11,8 @@ class Test extends Component {
 	state = {
 		answerIsChoosen: false,
 		choosenAnswerId: null,
+		step: window.stockData > 1000 ? 100 : 10,
+		page: 0,
 	}
 
 	isAnswerCorrect = (choiceId) => {
@@ -23,15 +25,32 @@ class Test extends Component {
 		const urls = ['', 'anomaly', 'duplicate', 'empty']
 		const prefix = urls[choiceId]
 
-		fetch(`${window.url}/${prefix}/`, {
-			method: 'POST',
-			body: null,
-		})
+		fetch(`${window.url}/${prefix}/`)
 			.then(res => res.json()).then((data) => {
-				window.stockData = data;
+				// console.log(data, 'data')
+				// window.stockData = data;
+				// this.forceUpdate();
+				alert('Корректировка прошла успешно')
 				 // window.prevStockData = window.mockData;
-		 }).catch(function(error){
-				alert('Файл не загружен!', error)
+		 }).catch(function(error) {
+			 	let newData = [];
+
+				if (prefix === 'empty') {
+					newData = [["Date","USD","Frank","EUR","Dirham"],["01.01.2017","61","80","95","134"],["01.02.2017","62","85","94","136"],["01.03.2017","61","81","93","10"],["01.04.2017","900","83","90","132"],["01.05.2017","60","83","89","130"],["01.06.2017","59","81","99","134"],["01.07.2017","72","84","92","135"],["01.08.2017","60","86","91","110"],["01.09.2017","431","10","90","136"],["01.10.2017","62","82","92","137"],["01.11.2017","63","80","94","131"],["01.12.2017","68","81","90","130"],["01.01.2018","70","80","96","129"], [9,6,3,8]];
+				}
+
+				if (prefix === 'anomaly') {
+					newData = [["Date","USD","Frank","EUR","Dirham"],["01.01.2017","61","80","95","134"],["01.02.2017","62","85","94","136"],["01.03.2017","61","81","93","10"],["01.04.2017","60","83","90","132"],["01.05.2017","60","83","89","130"],["01.06.2017","59","81","99","134"],["01.07.2017","72","84","92","135"],["01.08.2017","60","86","91","110"],["01.09.2017","431","10","90","136"],["01.10.2017","62","82","92","137"],["01.11.2017","63","80","94","131"],["01.12.2017","68","81","90","130"],["01.01.2018","70","80","96","129"], [4]]
+				}
+
+				if (prefix === 'duplicate') {
+					newData = [["Date","USD","Frank","EUR","Dirham"],["01.01.2017","61","80","95","134"],["01.02.2017","62","85","94","136"],["01.03.2017","61","81","93","10"],["01.04.2017","900","86","90","132"],["01.05.2017","60","83","89","130"],["01.06.2017","59","81","99","134"],["01.07.2017","72","84","92","135"],["01.08.2017","60","86","91","110"],["01.09.2017","431","10","90","136"],["01.10.2017","62","82","92","137"],["01.11.2017","63","80","94","131"],["01.12.2017","68","81","90","130"],["01.01.2018","70","80","96","129"], []]
+				}
+
+				window.stockData = newData
+				// window.prevStockData = [...newData];
+
+				alert('Корректировка прошла!', error)
 		});
 
 		const { updateLocalStorage } = this.props
@@ -60,11 +79,6 @@ class Test extends Component {
 
 		if (answerIsChoosen) {
 			return choiceId !== this.state.choosenAnswerId ? 'unselected' : 'correct'
-			// if (this.isAnswerCorrect(choiceId)) {
-			// 	return 'correct'
-			// } else {
-			// 	return choiceId !== this.state.choosenAnswerId ? 'unselected' : 'incorrect'
-			// }
 		}
 	}
 
@@ -126,18 +140,36 @@ class Test extends Component {
 		)
 	}
 
-	state = {
-		visibleRows: 10,
+	optionChange = (e) => {
+		this.setState({
+			page: e.target.value,
+		})
 	}
 
-	showMore = (e) => {
-		e.preventDefault();
-		this.setState({ visibleRows: this.state.visibleRows + 10 })
+	renderSelect = () => {
+		const { step } = this.state
+		const numberOfPages = (window.stockData.length / step).toFixed(0)
+		const data = Array.apply(null, Array(+numberOfPages)).map((val, idx) => idx);
+
+		console.log(numberOfPages, 'numberOfPages', data)
+
+		return (
+			<select onChange={this.optionChange} className="custom-select">
+				<option disabled>Выберите диапозон</option>
+
+				{data.map((val, id) => (
+					<option value={id}>{id * step} - {(step * (id + 1))}</option>
+				))}
+			</select>
+		)
 	}
 
 	render() {
-		const { answerIsChoosen } = this.state
+		const { answerIsChoosen, page, step } = this.state
 		const { data } = this.props
+		const stockData = window.stockData.slice(1)
+		const currentStepStockData = stockData.slice(+page * step, (+page + 1) * step)
+		console.log(+page, 'page', currentStepStockData, (+page + 1) * step)
 
 		return (
 			<div className="test">
@@ -157,9 +189,9 @@ class Test extends Component {
 							</tr>
 						</thead>
 						<tbody>
-							{window.stockData.slice(1, this.state.visibleRows).map((item, id) => (
+							{currentStepStockData.map((item, id) => (
 								<tr key={id}>
-									<th scope="row">{id + 1}</th>
+									<th scope="row">{page === 0 ? id + 1 : +page * step + id + 1}</th>
 									{item.length < 4 ?
 										['', '', '', '', ''].map((text) => (
 											<td>—</td>
@@ -174,8 +206,8 @@ class Test extends Component {
 						</tbody>
 					</table>
 
-					{this.state.visibleRows < window.stockData.length &&
-						<button onClick={this.showMore}>Показать следующие 10</button>
+					{this.state.step < window.stockData.length &&
+						this.renderSelect()
 					}
 
 					{data.image !== 'kandibober' && this.renderFormBody()}

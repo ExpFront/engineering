@@ -23,6 +23,15 @@
 		background: #b53d3d;
 	}
 
+	& .prevValue {
+		margin-right: 10px;
+		color: white;
+	}
+
+	& .input {
+		width: 35px;
+	}
+
 	&__list {
 		max-width: 500px;
 		margin: 0 auto;

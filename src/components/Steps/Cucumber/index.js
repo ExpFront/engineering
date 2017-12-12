@@ -14,6 +14,8 @@ class Test extends Component {
 	state = {
 		answerIsChoosen: false,
 		choosenAnswerId: null,
+		step: window.stockData > 1000 ? 100 : 10,
+		page: 0,
 	}
 
 	isAnswerCorrect = (choiceId) => {
@@ -85,6 +87,31 @@ class Test extends Component {
 		}
 	}
 
+	optionChange = (e) => {
+		this.setState({
+			page: e.target.value,
+		})
+	}
+
+	renderSelect = () => {
+		const { step } = this.state
+		const numberOfPages = (window.stockData.length / step).toFixed(0)
+		const data = Array.apply(null, Array(+numberOfPages)).map((val, idx) => idx);
+
+		console.log(numberOfPages, 'numberOfPages', data)
+
+		return (
+			<select onChange={this.optionChange} className="custom-select">
+				<option disabled>Выберите диапозон</option>
+
+				{data.map((val, id) => (
+					<option value={id}>{id * step} - {(step * (id + 1))}</option>
+				))}
+			</select>
+		)
+	}
+
+
 	componentDidMount() {
 		window.maxValues = {};
 
@@ -145,18 +172,23 @@ class Test extends Component {
 		this.forceUpdate();
 	}
 
-	state = {
-		visibleRows: 10,
+	showAcceptButtons = (e, row, column) => {
+		window.stockData[row][column] = e.target.value
+		this.forceUpdate()
 	}
 
-	showMore = (e) => {
+	removeChange = (e, row, column) => {
 		e.preventDefault();
-		this.setState({ visibleRows: this.state.visibleRows + 10 })
+
+		window.stockData[row][column] = window.prevStockData[row][column]
+		this.forceUpdate()
 	}
 
 	render() {
-		const { answerIsChoosen } = this.state
+		const { answerIsChoosen, page, step } = this.state
 		const { data } = this.props
+		const stockData = window.stockData.slice(1)
+		const currentStepStockData = stockData.slice(+page * step, (+page + 1) * step)
 
 		return (
 			<div className="test">
@@ -176,26 +208,41 @@ class Test extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{window.stockData.slice(1, this.state.visibleRows).map((item, id) => (
+						{currentStepStockData.map((item, id) => (
 							<tr key={id} className={window.stockData[window.stockData.length - 1].includes(id+1) ? 'corrected' : null}>
-								<th scope="row">{id + 1}</th>
+								<th scope="row">{page === 0 ? id + 1 : +page * step + id + 1}</th>
 								{item.length < 4 ?
 									['', '', '', '', ''].map((text) => (
 										<td>—</td>
 									))
 									:
-									item.map((text) => (
-										<td>{text}</td>
-									))
+									item.map((text, id2) => {
+										return (
+											<td>
+												{
+													window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2] !== window.stockData[page === 0 ? id + 1 : +page * step + id + 1][id2] &&
+														<span className="prevValue">{window.prevStockData[id+1][id2]}</span>
+												}
+												{(window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2] !== window.stockData[page === 0 ? id + 1 : +page * step + id + 1][id2]) && window.prevStockData[page === 0 ? id + 1 : +page * step + id + 1][id2]?
+													<div>
+														<input className="input" onChange={(e) => this.showAcceptButtons(e, id+1, id2)} type="text" value={text}/>
+														<button type="button" onClick={(e) => this.removeChange(e, id+1, id2)}>X</button>
+													</div>
+													:
+													text
+												}
+											</td>
+										)}
+									)
 								}
 							</tr>
 						))}
 					</tbody>
 				</table>
 
-					{this.state.visibleRows < window.stockData.length &&
-						<button onClick={this.showMore}>Показать следующие 10</button>
-					}
+				{this.state.step < window.stockData.length &&
+					this.renderSelect()
+				}
 
 					<div id="highcharts"></div>
 
