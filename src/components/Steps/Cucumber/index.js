@@ -117,7 +117,7 @@ class Test extends Component {
 
 		const getData = (id) => {
 			const arr = []
-			const data = window.stockData.slice(1).map((item) => {
+			const data = window.stockData.slice(1, 15).map((item) => {
 				console.log(item, 'item')
 				if (item.length > 1) {
 					arr.push(+item[id+1])
@@ -140,7 +140,6 @@ class Test extends Component {
 
 		}
 
-		console.log('UPDATED')
 
 		window.chart = Highcharts.chart('highcharts', {
 		    chart: {
@@ -194,6 +193,22 @@ class Test extends Component {
 		window.chart.destroy();
 		this.renderHighcharts();
 
+	}
+
+	goTo(e, item) {
+		e.preventDefault();
+
+		this.setState({
+			page: Math.floor(+(item / this.state.step)),
+		})
+	}
+
+	renderDuplicatedGroups() {
+		window.stockData[window.stockData.length - 1].map((body) => (
+			<div>{body.map((item) => (
+				<a style={{'display': 'inline-block', 'margin-right' : '10px'}} href="#" onClick={(e) => this.goTo(e, item)}>{item}</a>
+			))}</div>
+		))
 	}
 
 	render() {
@@ -253,6 +268,19 @@ class Test extends Component {
 						)})}
 					</tbody>
 				</table>
+
+				<div className="go">
+					Перейти к следующему изменению по номеру:
+					<br/>
+
+					{
+						window.duplicated ? this.renderDuplicatedGroups()
+						:
+						window.stockData[window.stockData.length - 1].map((item) => (
+							<a style={{'display': 'inline-block', 'margin-right' : '10px'}}href="#" onClick={(e) => this.goTo(e, item)}>{item}</a>
+						))
+					}
+				</div>
 
 				{this.state.step < window.stockData.length &&
 					this.renderSelect()
