@@ -51,6 +51,13 @@ class Test extends Component {
 		const { choosenAnswerId } = this.state
 		const { updateLocalSteps } = this.props
 
+		if (window.duplicated) {
+			fetch(`${window.url}/save/`, {
+				method: 'POST',
+				body: window.stockData,
+			})
+		}
+
 		window.prevStockData = [...window.stockData]
 		updateLocalSteps(this.isAnswerCorrect(choosenAnswerId), true)
 	}
@@ -99,8 +106,6 @@ class Test extends Component {
 		const numberOfPages = (window.stockData.length / step).toFixed(0)
 		const data = Array.apply(null, Array(+numberOfPages)).map((val, idx) => idx);
 
-		console.log(numberOfPages, 'numberOfPages', data)
-
 		return (
 			<select onChange={this.optionChange} className="custom-select">
 				<option disabled>Выберите диапозон</option>
@@ -117,8 +122,7 @@ class Test extends Component {
 
 		const getData = (id) => {
 			const arr = []
-			const data = window.stockData.slice(1, 15).map((item) => {
-				console.log(item, 'item')
+			const data = window.stockData.slice(1, window.stockData.length > 15 ? 15 : window.stockData.length).map((item) => {
 				if (item.length > 1) {
 					arr.push(+item[id+1])
 				}
@@ -203,11 +207,29 @@ class Test extends Component {
 		})
 	}
 
+	cancelRemoving(id) {
+		console.log(id);
+		window.stockData[window.stockData.length - 1].map((arr, index) => {
+			arr.map((item, arrId) => {
+				if (item === id) {
+					if (item.length < 2) {
+						window.stockData[window.stockData.length - 1].splice(arrId, 1);
+					}
+
+					window.stockData[window.stockData.length - 1][index].splice(arrId, 1);
+				}
+			})
+		})
+
+		this.forceUpdate();
+	}
+
 	renderDuplicatedGroups() {
-		window.stockData[window.stockData.length - 1].map((body) => (
-			<div>{body.map((item) => (
-				<a style={{'display': 'inline-block', 'margin-right' : '10px'}} href="#" onClick={(e) => this.goTo(e, item)}>{item}</a>
-			))}</div>
+		return window.stockData[window.stockData.length - 1].map((body) => (
+			<div style={{'display': 'inline-block', 'margin-right' : '30px'}} >{body.map((item, id) => ([
+				<a style={{'display': 'inline-block', 'margin-right' : '5px'}} href="#" onClick={(e) => this.goTo(e, item)}>{item}</a>,
+				<span style={{'display': 'inline-block', 'margin-right' : '10px'}} onClick={() => this.cancelRemoving(item)}>√</span>
+			]))}</div>
 		))
 	}
 
@@ -216,6 +238,12 @@ class Test extends Component {
 		const { data } = this.props
 		const stockData = window.stockData.slice(1)
 		const currentStepStockData = stockData.slice(+page * step, (+page + 1) * step)
+
+
+		window.getClassname = (id) => {
+			return window.stockData[window.stockData.length - 1].join().split(',').map(item => +item).includes(page === 0 ? id + 1 : +page * step + id + 1) ? 'corrected' : null;
+		}
+
 
 		return (
 			<div className="test">
@@ -235,8 +263,8 @@ class Test extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						{currentStepStockData.map((item, id) => {console.log(stockData.length - 1, +page * step + id + 1, 'blha'); return(
-							<tr key={id} className={window.stockData[window.stockData.length - 1].map(item => +item).includes(page === 0 ? id + 1 : +page * step + id + 1) ? 'corrected' : null}>
+						{currentStepStockData.map((item, id) => {return(
+							<tr key={id} className={window.getClassname(id)}>
 								<th scope="row">{page === 0 ? id + 1 : +page * step + id + 1}</th>
 								{+page * step + id + 1 === stockData.length || item.length < 4 ?
 									['', '', '', '', ''].map((text) => (
